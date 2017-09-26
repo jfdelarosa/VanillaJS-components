@@ -1,0 +1,28 @@
+{
+  "name": "vanillajs-components",
+  "version": "1.0.0",
+  "description": "Web components using only vanilla js",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jfdelarosa/vanillajs-components.git"
+  },
+  "keywords": [
+    "vanillajs",
+    "webcomponents",
+    "javascript"
+  ],
+  "author": "jfdelarosa <jfdelarosa@outlook.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jfdelarosa/vanillajs-components/issues"
+  },
+  "homepage": "https://github.com/jfdelarosa/vanillajs-components#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1"
+  }
+}
