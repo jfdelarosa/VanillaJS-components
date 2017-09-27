@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello component</title>
+</head>
+<body>
+  <template id="hello">
+    <span>Hello<span class="my-text"></span></span>
+    <style>
+      :host span {
+        background: #DEDEDE;
+        padding: 1rem;
+        font-size: 2rem;
+      }
+    </style>
+  </template>
+  
+  <script>
+    registerComponent('my-hello', {
+      template: "#hello",
+      attributes: ['my-text']
+    });
+  </script>
+</body>
+</html>

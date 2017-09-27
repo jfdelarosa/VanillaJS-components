@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>VanillaJS components</title>
+  <meta charset="UTF-8">
+  <title>VanillaJS components</title>
+  <style>
+    body{
+      font-family: sans-serif;
+      align-items: center;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
-	
+  <my-hello my-text="world"></my-hello>
+  <script src="dist/vanillajs-components.js"></script>
+  <script>
+    loadComponent('dist/components/my-hello.html');
+  </script>
 </body>
 </html>
