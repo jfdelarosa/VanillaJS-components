@@ -1,26 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Hello component</title>
-</head>
-<body>
-  <template id="hello">
-    <span>Hello<span class="my-text"></span></span>
-    <style>
-      :host span {
-        background: #DEDEDE;
-        padding: 1rem;
-        font-size: 2rem;
+<template id="hello">
+  <span>Hello <span class="my-text"></span>!</span>
+  <style>
+    :host > span {
+      background: #DEDEDE;
+      padding: 1rem;
+      font-size: 2rem;
+    }
+    :host span > span{
+      text-decoration: underline;
+    }
+  </style>
+</template>
+
+<script>
+  registerComponent('my-hello', {
+    attributes: {
+      'my-text': function(value, template) {
+        template.querySelector('.my-text').innerHTML = value;
+      },
+      'debug': function(value) {
+        console.log(value);
       }
-    </style>
-  </template>
-  
-  <script>
-    registerComponent('my-hello', {
-      template: "#hello",
-      attributes: ['my-text']
-    });
-  </script>
-</body>
-</html>
+    }
+  });
+</script>

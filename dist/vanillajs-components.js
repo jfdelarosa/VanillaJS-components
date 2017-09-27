@@ -6,15 +6,16 @@ var registerComponent = function registerComponent(tag, options) {
 
   element.createdCallback = function () {
     var shadow = this.attachShadow({
-      mode: 'closed'
+      mode: 'open'
     });
+    var templateSelector = options.template || "template";
+    var template = thisDoc.querySelector(templateSelector).content;
+    var keys = Object.keys(options.attributes);
 
-    var template = thisDoc.querySelector(options.template).content;
-
-    for (var i = options.attributes.length - 1; i >= 0; i--) {
-      if (this.hasAttribute(options.attributes[i])) {
-        var who = this.getAttribute(options.attributes[i]);
-        template.querySelector('.' + options.attributes[i]).innerHTML = who;
+    for (var i = keys.length - 1; i >= 0; i--) {
+      if (this.hasAttribute(keys[i])) {
+        var who = this.getAttribute(keys[i]);
+        options.attributes[keys[i]](who, template);
       }
     }
 
