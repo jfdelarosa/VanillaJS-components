@@ -1,33 +1,49 @@
-const registerComponent = (tag, options) => {
-  const thisDoc = document.currentScript.ownerDocument;
-  const element = Object.create(HTMLElement.prototype);
-
-  element.createdCallback = function(){
-    const shadow = this.attachShadow({
-      mode: 'open'
-    });
-    const templateSelector = options.template || "template";
-    const template = thisDoc.querySelector(templateSelector).content;
-    const keys = Object.keys(options.attributes);
-    
-    for (let i = keys.length - 1; i >= 0; i--) {
-      if (this.hasAttribute(keys[i])) {
-        const who = this.getAttribute(keys[i]);
-        options.attributes[keys[i]](who, template);
-      }
-    }
-
-    shadow.appendChild(template.cloneNode(true)); 
+const hola = "asdasdasd";
+const loadComponent = (component) => {
+  const script = document.createElement('script');
+  script.src = component + '.js';
+  script.onerror = function(){
+    console.error("Component not found at", script.src);
   }
-
-  document.registerElement(tag, {
-    prototype: element
-  });
+  document.head.appendChild(script);
 }
 
-const loadComponent = (component) => {
-  const link = document.createElement('link');
-  link.rel = 'import'
-  link.href = component;
-  document.getElementsByTagName('head')[0].appendChild(link);
+const registerComponent = (tag, options) => {
+  const elements = document.getElementsByTagName(tag);
+  const keys = (options.functions) ? Object.keys(options.functions) : [];
+  const temp = [];
+  const kv = {};
+  if(!options.template){
+    console.error("Template not found.");
+  }
+  if(options.stylesheet){
+    const style = document.createElement('link');
+    style.rel = "stylesheet";
+    style.href = options.stylesheet;
+    document.head.appendChild(style);
+  }
+  
+  for(let i = elements.length - 1; i >= 0; i--){
+    temp[i] = document.createElement('div');
+    temp[i].innerHTML = options.template.apply({});
+    
+    for(let j = options.attributes.length - 1; j >= 0; j--){ 
+      const attrName = options.attributes[j];
+      
+      if(elements[i].hasAttribute(attrName)){
+        const attrVal = elements[i].getAttribute(attrName);
+        const camel = attrName.toLowerCase().replace(/-(.)/g, function(match, str){
+          return str.toUpperCase();
+        });
+
+        kv[camel] = attrVal;
+        
+        if(keys.includes(attrName)){
+          options.functions[attrName](attrVal, temp[i].firstChild);
+        }
+      }
+    }
+    temp[i].innerHTML = options.template.apply(kv);
+    elements[i].replaceWith(temp[i].firstChild);
+  }
 }

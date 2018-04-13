@@ -1,6 +1,8 @@
 # VanillaJS Components
 
-A set of web componens made using only vanilla js
+A set of cross-browser web componens made using only vanilla js
+
+[Demo](http://jfdelarosa.me/VanillaJS-components/)
 
 ### Installation
 
@@ -27,39 +29,87 @@ $ npm start
   <title>VanillaJS components</title>
 </head>
 <body>
-  <my-hello my-text="world"></my-hello>
-  <script src="route/to/vanillajs-components.js"></script>
+  <my-hello my-text="world" debug="Using web components!"></my-hello>
+  <my-hello my-text="goodbye"></my-hello>
+  <script src="path/to/vanillajs-components.js"></script>
   <script>
-    loadComponent('route/to/component.html');
+    loadComponent('path/to/my-hello');
   </script>
 </body>
 </html>
 ```
-**component.html**
-```HTML
-<template id="hello">
-  <span>Hello <span class="my-text"></span>!</span>
-  <style>
-    :host > span {
-      background: #DEDEDE;
-      padding: 1rem;
-      font-size: 2rem;
+**my-hello.js**
+```JAVASCRIPT
+registerComponent('my-hello', {
+  template: function(){
+    return `<div class="my-hello">Hello ${this.myText}!</div>`;
+  },
+  stylesheet: 'path/to/component-stylesheet.css',
+  attributes: ['my-text', 'debug'],
+  functions: {
+    'debug': function(value, template){
+      console.log(value);
+      console.log(template);
     }
-  </style>
-</template>
-<script>
-  registerComponent('my-hello', {
-    attributes: {
-      "my-text": function(value, template) {
-        template.querySelector('.my-text').innerHTML = value;
-      }
-    }
-  });
-</script>
+  }
+});
 ```
+
+## Methods
+```JAVASCRIPT
+loadComponent(path);
+```
+
+**path**
+
+A string wich contains the path of the component script.
+
+```JAVASCRIPT
+registerComponent(componentTag, options);
+```
+
+**componentTag**
+
+The tag of the component.
+
+**options**
+
+An object containing the configuration of the component, the options are listed below.
+
+## Options
+**template** (required)
+
+> A **function** that returns the template, you can pass any component attribute using ES6 template literals `${this.attribute}`.
+
+> Also, you can use external variables if the `this` keyword is omitted `$(globalVar)`.
+
+> Parameters containing hyphens are converted to camel case.
+
+**stylesheet** (optional)
+
+> A **string** containing the path to the component stylesheet.
+
+> Stylesheets are NOT component specific, and can affect other the layout of the page or other components as well.
+
+**attributes** (optional)
+
+> An **array** containing the names of the atributes of the component.
+
+**functions** (optional)
+
+> An **object** containing component parameters as keys and functions as values, each of this functions has the value of the specified component parameter and the component template as parameters.
+
 
 ## Browser Support
 
-| VanillaJS components   | IE11+ | Chrome | Firefox | Safari 9+ | Chrome Android | Mobile Safari |
+|    | IE | Chrome | Firefox | Safari | Chrome Android | Safari iOS |
 | :--------------------: | :---: | :----: | :-----: | :-------: | :------------: | :-----------: |
-| VanillaJS components   | ✗ | ✓ | ? | ? | ? | ? |
+| Version  | x | x | x | x | x | x |
+
+
+## TODO
+- [ ] Check Browser support
+- [ ] Attatch events to the component
+- [ ] Component `<slot>`
+- [ ] Refactor code
+- [ ] Better documentation

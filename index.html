@@ -15,10 +15,13 @@
   </style>
 </head>
 <body>
-  <my-hello my-text="world" debug="Using web components!"></my-hello>
+  <div>
+    <my-hello my-text="world" debug="Using web components!"></my-hello>
+    <my-hello my-text="goodbye"></my-hello>
+  </div>
   <script src="dist/vanillajs-components.js"></script>
   <script>
-    loadComponent('dist/components/my-hello.html');
+    loadComponent('dist/components/my-hello/my-hello');
   </script>
 </body>
 </html>
