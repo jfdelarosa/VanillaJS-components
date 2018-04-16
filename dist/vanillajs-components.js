@@ -1,6 +1,5 @@
 'use strict';
 
-var hola = "asdasdasd";
 var loadComponent = function loadComponent(component) {
   var script = document.createElement('script');
   script.src = component + '.js';
@@ -14,6 +13,7 @@ var registerComponent = function registerComponent(tag, options) {
   var elements = document.getElementsByTagName(tag);
   var keys = options.functions ? Object.keys(options.functions) : [];
   var temp = [];
+  var slot = [];
   var kv = {};
   if (!options.template) {
     console.error("Template not found.");
@@ -46,6 +46,16 @@ var registerComponent = function registerComponent(tag, options) {
       }
     }
     temp[i].innerHTML = options.template.apply(kv);
+
+    if (elements[i].innerHTML != "") {
+      slot[i] = document.createElement('div');
+      slot[i].innerHTML = elements[i].innerHTML;
+      temp[i].querySelector('slot').replaceWith(slot[i].firstChild);
+    } else {
+      var element = temp[i].querySelector('slot');
+      element.parentNode.removeChild(element);
+    }
+
     elements[i].replaceWith(temp[i].firstChild);
   }
 };

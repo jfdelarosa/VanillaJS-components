@@ -29,8 +29,8 @@ $ npm start
   <title>VanillaJS components</title>
 </head>
 <body>
-  <my-hello my-text="world" debug="Using web components!"></my-hello>
-  <my-hello my-text="goodbye"></my-hello>
+  <my-hello my-text="world">Hello <slot></slot></my-hello>
+  <my-hello my-text="goodbye" debug="Using web components!"></my-hello>
   <script src="path/to/vanillajs-components.js"></script>
   <script>
     loadComponent('path/to/my-hello');
@@ -42,7 +42,7 @@ $ npm start
 ```JAVASCRIPT
 registerComponent('my-hello', {
   template: function(){
-    return `<div class="my-hello">Hello ${this.myText}!</div>`;
+    return `<div class="my-hello">Hello <slot></slot> ${this.myText}!</div>`;
   },
   stylesheet: 'path/to/component-stylesheet.css',
   attributes: ['my-text', 'debug'],
@@ -85,6 +85,8 @@ An object containing the configuration of the component, the options are listed 
 
 > Parameters containing hyphens are converted to camel case.
 
+> You can use the `<slot>` tag to use the text inside the component tags in the template, as seen on the example above.
+
 **stylesheet** (optional)
 
 > A **string** containing the path to the component stylesheet.
@@ -110,6 +112,6 @@ An object containing the configuration of the component, the options are listed 
 ## TODO
 - [ ] Check Browser support
 - [ ] Attatch events to the component
-- [ ] Component `<slot>`
+- [x] Component `<slot>`
 - [ ] Refactor code
 - [ ] Better documentation

@@ -1,4 +1,3 @@
-const hola = "asdasdasd";
 const loadComponent = (component) => {
   const script = document.createElement('script');
   script.src = component + '.js';
@@ -12,6 +11,7 @@ const registerComponent = (tag, options) => {
   const elements = document.getElementsByTagName(tag);
   const keys = (options.functions) ? Object.keys(options.functions) : [];
   const temp = [];
+  const slot = [];
   const kv = {};
   if(!options.template){
     console.error("Template not found.");
@@ -35,7 +35,7 @@ const registerComponent = (tag, options) => {
         const camel = attrName.toLowerCase().replace(/-(.)/g, function(match, str){
           return str.toUpperCase();
         });
-
+        
         kv[camel] = attrVal;
         
         if(keys.includes(attrName)){
@@ -44,6 +44,16 @@ const registerComponent = (tag, options) => {
       }
     }
     temp[i].innerHTML = options.template.apply(kv);
+      
+    if(elements[i].innerHTML != ""){
+      slot[i] = document.createElement('div');
+      slot[i].innerHTML = elements[i].innerHTML;
+      temp[i].querySelector('slot').replaceWith(slot[i].firstChild)
+    }else{
+      const element = temp[i].querySelector('slot');
+      element.parentNode.removeChild(element);
+    }
+    
     elements[i].replaceWith(temp[i].firstChild);
   }
 }

@@ -1,6 +1,6 @@
 registerComponent('my-hello', {
   template: function(){
-    return `<div class="my-hello">Hello ${this.myText}!</div>`;
+    return `<div class="my-hello">Hello <slot></slot> ${this.myText}!</div>`;
   },
   stylesheet: 'dist/components/my-hello/my-hello.css',
   attributes: ['my-text', 'debug'],
